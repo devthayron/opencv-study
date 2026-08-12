@@ -36,24 +36,24 @@ def open_camera(ip=None):
 
     if not video.isOpened():
         raise ConnectionError("Não foi possível conectar à câmera.")
+    try:
+        while True:
+            check, frame = video.read()
 
-    while True:
-        check, frame = video.read()
+            if not check:
+                print("Não foi possível receber o vídeo.")
+                break
 
-        if not check:
-            print("Não foi possível receber o vídeo.")
-            break
+            # Redimensiona o frame para 480p 16:9.
+            resized_frame = cv.resize(frame, (854, 480))
 
-        # Redimensiona o frame para 480p 16:9.
-        resized_frame = cv.resize(frame, (854, 480))
+            cv.imshow(window_name, resized_frame)
 
-        cv.imshow(window_name, resized_frame)
-
-        if cv.waitKey(1) & 0xFF == ord("q"):
-            break
-
-    video.release()
-    cv.destroyAllWindows()
+            if cv.waitKey(1) & 0xFF == ord("q"):
+                break
+    finally:
+        video.release()
+        cv.destroyAllWindows()
 
 
 # acessa o ip da camera do celular

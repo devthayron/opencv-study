@@ -1,5 +1,6 @@
 import cv2 as cv
 
+# reproduzir o video
 video = cv.VideoCapture("media/runners.mp4")
 
 while True:
@@ -7,7 +8,7 @@ while True:
     # print(img.shape)
     img_redimencionada = cv.resize(img, (640, 420))  # redimencionar
 
-    cv.imshow("video", img_redimencionada)
+    cv.imshow("video", img)
     if cv.waitKey(15) & 0xFF == ord("q"):
         break
 
